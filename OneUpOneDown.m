@@ -39,17 +39,24 @@ classdef OneUpOneDown<handle
         end
         
         function stop = finished(obj)
-           stop = (obj.reversals-1) == obj.final_reversals; 
+           stop = (obj.reversals-1) == obj.final_reversals*2; 
         end
         
-        function reversal_occured = perform_step(obj, user_answer,step_size)
+        function reversal_occured = perform_step(obj, user_answer)
             %The user answer has to be positive or negative
+            
             if(obj.direction)
                if(user_answer > 0)
+                  if(obj.reversals==0)
+                      step_size = obj.inital_step;
+                  else
+                      step_size = obj.step;
+                  end
                   obj.parameter = obj.parameter + step_size;
+                  reversal_occured = 0;
                else
                   obj.peak = obj.parameter;
-                  obj.parameter = obj.parameter - step_size;
+                  obj.parameter = obj.parameter - obj.step;
                   obj.reversals = obj.reversals + 1;
                   obj.direction = ~obj.direction;
                   reversal_occured = 1;
@@ -57,19 +64,25 @@ classdef OneUpOneDown<handle
             else
                if(user_answer > 0)
                   obj.valley = obj.parameter;
-                  obj.parameter = obj.parameter + step_size;
+                  obj.parameter = obj.parameter + obj.step;
                   obj.reversals = obj.reversals + 1;
                   obj.direction = ~obj.direction;
-                  reversal_occured = 0;
+                  reversal_occured = 1;
                else
+                  if(obj.reversals==0)
+                      step_size = obj.inital_step;
+                  else
+                      step_size = obj.step;
+                  end
                   obj.parameter = obj.parameter - step_size;
+                  reversal_occured = 0;
                end
             end 
         end
         
         function [] = update_estimate(obj)
            %update the estimate if the reversal is a second run
-           if(mod(obj.reversals, 2))
+           if(mod(obj.reversals, 2)==0)
                obj.estimate = obj.estimate + (obj.peak + obj.valley)/2.0;
            end
         end
@@ -80,18 +93,12 @@ classdef OneUpOneDown<handle
         
         function performed = perform_trial(obj, user_answer)
             if(~obj.finished())
-                if(obj.reversals == 0)
-                   %We haven't found the first reversal, perform a large
-                   %step
-                   obj.perform_step(user_answer, obj.inital_step);
-                else
-                   %perform a regular step and update X_50 as necessary
-                   reversal_occured = obj.perform_step(user_answer, obj.step);
-                   if(reversal_occured)
-                      obj.update_estimate(); 
-                   end
-                end
-                performed = 1;
+               %perform a step and update X_50 as necessary
+               reversal_occured = obj.perform_step(user_answer);
+               if(reversal_occured)
+                  obj.update_estimate(); 
+               end
+               performed = 1;
             else
                 performed = 0;
             end
