@@ -17,5 +17,9 @@ catch Exception
 end
 
 %% Calculate the adjustment intensities for the 24 tactors
-intensities = threshold + A.Adj - A.RefLev;
+ref_index = isnan(A.Adj);
+A.Adj(ref_index)=0;
+intensities_adj = threshold + A.Adj - A.RefLev;
+adj = min(0, 30 + intensities_adj);
+intensities = 0.43*10.^(adj/20);
 end

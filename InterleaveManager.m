@@ -12,7 +12,7 @@ classdef InterleaveManager<handle
     
     methods
         function obj=InterleaveManager(sig_intensities, sig_duration, initialSOA_1, initialSOA_2, modulation, initial_step, step, final_reversals_per_method)
-            method_1=OneUpOneDown(initial_step, -1, step, final_reversals_per_method, initialSOA_1);
+            method_1=OneUpOneDown(initial_step, 0, step, final_reversals_per_method, initialSOA_1);
             method_2=OneUpOneDown(initial_step, 1, step, final_reversals_per_method, initialSOA_2);
             adaptive_methods = cell(1,2);
             adaptive_methods{1} = method_1;
@@ -35,7 +35,9 @@ classdef InterleaveManager<handle
                SOA = method.parameter;
                %% Call the snake
                % snake_matrix = snake(obj.modulation, SOA, obj.signal_duration)
-               
+               % snake = adjust_snake(snake_matrix, obj.signal_intensities)
+               % playrec('play', snake)
+               % playrec('block')
                performed = 1;
            else
                performed = 0;
