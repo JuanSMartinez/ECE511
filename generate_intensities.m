@@ -13,7 +13,7 @@ try
     end
    load(adjustment_file,'-mat');
 catch Exception
-    raise('Could not load adjustment file');
+    error('Could not load adjustment file');
 end
 
 %% Calculate the adjustment intensities for the 24 tactors
