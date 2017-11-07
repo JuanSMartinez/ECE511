@@ -33,8 +33,9 @@ classdef InterleaveManager<handle
                end
                method.perform_trial(user_answer);
                SOA = method.parameter;
-               %% TODO: call the snake
-               % snake(obj.modulation, SOA, obj.signal_intensity, obj.signal_duration)
+               %% Call the snake
+               % snake_matrix = snake(obj.modulation, SOA, obj.signal_duration)
+               
                performed = 1;
            else
                performed = 0;
