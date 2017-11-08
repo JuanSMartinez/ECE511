@@ -43,7 +43,7 @@ classdef InterleaveManager<handle
                snake = eye(21168,24);
                snake_final = adjust_snake(snake, obj.signal_intensities);
                playrec('play', snake_final, 1:1:24);
-               playrec('block')
+               playrec('block');
                performed = 1;
            else
                performed = 0;
