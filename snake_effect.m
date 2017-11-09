@@ -72,16 +72,16 @@ f_on  = 300e2+5*SOA;   f_off = 1050e2+5*SOA-1;
     end
 
 %plotting the signal    
-x_axis = (1:length(snake_matrix(:,1))).*2.73e-5;    
-figure
-plot(x_axis,snake_matrix);
-hold on;
-xlabel('Time [s]', 'fontsize', 15);
-ylabel('Signal amplitude', 'fontsize', 15);
-axis([0 Inf  -Inf Inf]); 
-str = sprintf('Signals in tactors, SOA= %d ms', SOA_ms);
-title(str,'fontsize', 15);
-hold off;
+% x_axis = (1:length(snake_matrix(:,1))).*2.73e-5;    
+% figure
+% plot(x_axis,snake_matrix);
+% hold on;
+% xlabel('Time [s]', 'fontsize', 15);
+% ylabel('Signal amplitude', 'fontsize', 15);
+% axis([0 Inf  -Inf Inf]); 
+% str = sprintf('Signals in tactors, SOA= %d ms', SOA_ms);
+% title(str,'fontsize', 15);
+% hold off;
 
 end
 
