@@ -18,12 +18,13 @@ switch modulation_type
 end
 
 %otuput_vector_mod corrects time and removes tactor number
-stimuli  = output_vector_mod (300, 1690, 1, modulation_type);
+intensity = 1;
+stimuli   = output_vector_mod (300, 1690, intensity, modulation_type);
                             %(f_1, t(ms),int1, mod_type )
 
 
 %creating 24-channel matrix
-snake_matrix = zeros(3000e2,24);
+snake_matrix = zeros(4000e2,24);
 
 
 %determining time variables for each set of stimuli
@@ -72,16 +73,20 @@ f_on  = 300e2+5*SOA;   f_off = 1050e2+5*SOA-1;
     end
 
 %plotting the signal    
-% x_axis = (1:length(snake_matrix(:,1))).*2.73e-5;    
-% figure
-% plot(x_axis,snake_matrix);
-% hold on;
-% xlabel('Time [s]', 'fontsize', 15);
-% ylabel('Signal amplitude', 'fontsize', 15);
-% axis([0 Inf  -Inf Inf]); 
-% str = sprintf('Signals in tactors, SOA= %d ms', SOA_ms);
-% title(str,'fontsize', 15);
-% hold off;
+x_axis = (1:length(snake_matrix(:,1))).*2.73e-5;    
+figure
+plot(x_axis,snake_matrix);
+hold on;
+xlabel('Time [s]', 'fontsize', 15);
+ylabel('Signal amplitude', 'fontsize', 15);
+axis([0 Inf  -Inf Inf]); 
+str = sprintf('Signals in tactors, SOA= %d ms', SOA_ms);
+title(str,'fontsize', 15);
+hold off;
 
+    %playing signal. "if" statement assures amps won't burn with degault intensity of 1 
+    if intensity <0.2
+        %playrec('play', snake_matrix, 1:24);
+    end 
 end
 
