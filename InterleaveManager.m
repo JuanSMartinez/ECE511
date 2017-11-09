@@ -8,6 +8,7 @@ classdef InterleaveManager<handle
         signal_intensities;
         signal_duration;
         signal_modulation;
+        last_method;
     end
     
     methods
@@ -20,34 +21,52 @@ classdef InterleaveManager<handle
             obj.signal_intensities = sig_intensities;
             obj.signal_duration = sig_duration;
             obj.signal_modulation = modulation;
+            obj.last_method = obj.adaptive_methods{1};
+            %Initial stimulus
+            %% Call the snake
+            % snake_matrix = snake(obj.modulation, initialSOA_1, obj.signal_duration)
+            % snake = adjust_snake(snake_matrix, obj.signal_intensities)
+            % playrec('play', snake)
+            % playrec('block')
+
+            %dummy snake
+            snake = eye(21168,24);
+            snake_final = adjust_snake(snake, obj.signal_intensities);
+            playrec('play', snake_final, 1:1:24);
+            playrec('block');
+
         end
         
         function performed = perform_trial(obj,user_answer)
            % Get a random method to perform
            if(~obj.experiment_finished())
+               obj.last_method.perform_trial(user_answer);
                num = randi(2,1,1);
                method = obj.adaptive_methods{num};
                while(method.finished() && ~obj.experiment_finished())
                    num = randi(2,1,1);
                    method = obj.adaptive_methods{num};
                end
-               method.perform_trial(user_answer);
-               SOA = method.parameter;
+               
+               next_SOA = method.parameter;
+               obj.last_method=method;
                %% Call the snake
-               % snake_matrix = snake(obj.modulation, SOA, obj.signal_duration)
+               % snake_matrix = snake(obj.modulation, next_SOA, obj.signal_duration)
                % snake = adjust_snake(snake_matrix, obj.signal_intensities)
                % playrec('play', snake)
                % playrec('block')
-               
+
                %dummy snake
                snake = eye(21168,24);
                snake_final = adjust_snake(snake, obj.signal_intensities);
                playrec('play', snake_final, 1:1:24);
                playrec('block');
+               
                performed = 1;
            else
                performed = 0;
            end
+          
         end
         
         function stop = experiment_finished(obj)
