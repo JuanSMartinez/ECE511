@@ -18,7 +18,7 @@ end
 
 %% Calculate the adjustment intensities for the 24 tactors
 ref_index = isnan(A.Adj);
-A.Adj(ref_index)=0;
+A.Adj(ref_index)=A.RefLev;
 intensities_adj = threshold + A.Adj - A.RefLev;
 adj = min(0, 30 + intensities_adj);
 intensities = 0.43*10.^(adj/20);
