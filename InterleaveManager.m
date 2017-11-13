@@ -26,10 +26,10 @@ classdef InterleaveManager<handle
             obj.last_method_n = 1;
             %Initial stimulus
             %% Call the snake
-            snake_matrix = snake_effect(obj.signal_modulation, initialSOA_1);
-            snake = adjust_snake(snake_matrix, obj.signal_intensities);
-            playrec('play', snake, 1:1:24);
-            playrec('block');
+%             snake_matrix = snake_effect(obj.signal_modulation, initialSOA_1);
+%             snake = adjust_snake(snake_matrix, obj.signal_intensities);
+%             playrec('play', snake, 1:1:24);
+%             playrec('block');
 
         end
         
@@ -53,10 +53,10 @@ classdef InterleaveManager<handle
                obj.last_method=method;
                obj.last_method_n=num;
                %% Call the snake
-               snake_matrix = snake_effect(obj.signal_modulation, next_SOA);
-               snake = adjust_snake(snake_matrix, obj.signal_intensities);
-               playrec('play', snake, 1:1:24);
-               playrec('block');
+%                snake_matrix = snake_effect(obj.signal_modulation, next_SOA);
+%                snake = adjust_snake(snake_matrix, obj.signal_intensities);
+%                playrec('play', snake, 1:1:24);
+%                playrec('block');
                
                performed = 1;
            else
