@@ -6,24 +6,26 @@ classdef InterleaveManager<handle
     properties(SetAccess=private)
         adaptive_methods;
         signal_intensities;
-        signal_duration;
+        max_trials;
+        trials;
         signal_modulation;
         last_method;
         last_method_n;
     end
     
     methods
-        function obj=InterleaveManager(sig_intensities, sig_duration, initialSOA_1, initialSOA_2, modulation, initial_step, step, final_reversals_per_method)
+        function obj=InterleaveManager(sig_intensities, max_n_trials, initialSOA_1, initialSOA_2, modulation, initial_step, step, final_reversals_per_method)
             method_1=OneUpOneDown(initial_step, 0, step, final_reversals_per_method, initialSOA_1);
             method_2=OneUpOneDown(initial_step, 1, step, final_reversals_per_method, initialSOA_2);
             obj.adaptive_methods = cell(1,2);
             obj.adaptive_methods{1} = method_1;
             obj.adaptive_methods{2} = method_2;
             obj.signal_intensities = sig_intensities;
-            obj.signal_duration = sig_duration;
+            obj.max_trials = max_n_trials;
             obj.signal_modulation = modulation;
             obj.last_method = obj.adaptive_methods{1};
             obj.last_method_n = 1;
+            obj.trials = 0;
             %Initial stimulus
             %% Call the snake
 %             snake_matrix = snake_effect(obj.signal_modulation, initialSOA_1);
@@ -35,7 +37,7 @@ classdef InterleaveManager<handle
         
         function performed = perform_trial(obj,user_answer)
            % Get a random method to perform
-           if(~obj.experiment_finished())
+           if(~obj.experiment_finished() && obj.trials <= obj.max_trials)
                if(obj.last_method_n==1)
                    obj.last_method.perform_trial(-user_answer);
                else
@@ -57,7 +59,7 @@ classdef InterleaveManager<handle
 %                snake = adjust_snake(snake_matrix, obj.signal_intensities);
 %                playrec('play', snake, 1:1:24);
 %                playrec('block');
-               
+               obj.trials = obj.trials +1;
                performed = 1;
            else
                performed = 0;
