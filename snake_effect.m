@@ -23,10 +23,6 @@ stimuli   = output_vector_mod (300, 1690, intensity, modulation_type);
                             %(f_1, t(ms),int1, mod_type )
 
 
-%creating 24-channel matrix
-snake_matrix = zeros(4000e2,24);
-
-
 %determining time variables for each set of stimuli
 SOA   = round(SOA_ms*44.379354724); %converting SOA(ms) to SOA in right number of rows
 a_on  = 300e2;         a_off = 1050e2-1;
@@ -35,6 +31,9 @@ c_on  = 300e2+2*SOA;   c_off = 1050e2+2*SOA-1;
 d_on  = 300e2+3*SOA;   d_off = 1050e2+3*SOA-1;
 e_on  = 300e2+4*SOA;   e_off = 1050e2+4*SOA-1;
 f_on  = 300e2+5*SOA;   f_off = 1050e2+5*SOA-1;
+
+%creating 24-channel matrix
+snake_matrix = zeros(f_off+1,24);
 
     %a
     for i=a_on:a_off
@@ -72,7 +71,7 @@ f_on  = 300e2+5*SOA;   f_off = 1050e2+5*SOA-1;
         snake_matrix(i,22) = stimuli(i- f_on+1);
     end
 
-%plotting the signal    
+% %plotting the signal    
 % x_axis = (1:length(snake_matrix(:,1))).*2.73e-5;    
 % figure
 % plot(x_axis,snake_matrix);
