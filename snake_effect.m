@@ -85,8 +85,8 @@ f_on  = 300e2+5*SOA;   f_off = 1050e2+5*SOA-1;
 % hold off;
 
     %playing signal. "if" statement assures amps won't burn with degault intensity of 1 
-    if intensity <0.2
-        %playrec('play', snake_matrix, 1:24);
-    end 
+%     if intensity <0.2
+%         %playrec('play', snake_matrix, 1:24);
+%     end 
 end
 

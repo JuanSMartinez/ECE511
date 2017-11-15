@@ -52,6 +52,7 @@ classdef InterleaveManager<handle
                end
                
                next_SOA = method.parameter;
+              
                obj.last_method=method;
                obj.last_method_n=num;
                %% Call the snake
