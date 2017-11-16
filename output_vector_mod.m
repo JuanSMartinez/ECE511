@@ -4,7 +4,7 @@ function [ signal_tone_vector ] = output_vector_mod( frequency_1, duration_ms, i
 %adding a correction factor to pa_wavplay, for signal to be played correctly
 %duration_ms = duration_ms+300;
 
-sampling_frequency = 48000; %"fs" in test24chan.m
+sampling_frequency = 44000; %"fs" in test24chan.m -> 44k is the value to procude f=300 Hz when requesting 300 Hz in function
 T            = duration_ms*100/2.25333;
 time         = (0:T-1)/sampling_frequency; %vector created based in duration(ms);
 
@@ -25,7 +25,7 @@ exp_modulator   = exp(power_modulator);
 
 %creating linear modulator
 %angular_modulator = 0:1/T:1-1/T;
-angular_modulator = 1-1/T:-1/T:0;
+angular_modulator = 0:1/T:(1-1/T); % 1-1/T:-1/T:0;
 
 %creating gaussian modulator
 gauss_interval  = 0:1/T:1-1/T;
