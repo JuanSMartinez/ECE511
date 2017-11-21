@@ -28,22 +28,22 @@ classdef InterleaveManager<handle
             obj.trials = 0;
             %Initial stimulus
             %% Call the snake
-%             snake_matrix = snake_effect(obj.signal_modulation, initialSOA_1);
-%             snake = adjust_snake(snake_matrix, obj.signal_intensities);
-%             playrec('play', snake, 1:1:24);
-%             playrec('block');
+            snake_matrix = snake_effect(obj.signal_modulation, initialSOA_1);
+            snake = adjust_snake(snake_matrix, obj.signal_intensities);
+            playrec('play', snake, 1:1:24);
+            playrec('block');
 
         end
         
         function performed = perform_trial(obj,user_answer)
            % Get a random method to perform
            if(~obj.experiment_finished() && obj.trials <= obj.max_trials)
-               if(obj.last_method_n==1)
-                   obj.last_method.perform_trial(-user_answer);
-               else
-                   obj.last_method.perform_trial(user_answer);
-               end
-               %obj.last_method.perform_trial(user_answer);
+%                if(obj.last_method_n==1)
+%                    obj.last_method.perform_trial(-user_answer);
+%                else
+%                    obj.last_method.perform_trial(user_answer);
+%                end
+               obj.last_method.perform_trial(user_answer);
                num = randi(2,1,1);
                method = obj.adaptive_methods{num};
                while(method.finished() && ~obj.experiment_finished())
@@ -56,11 +56,11 @@ classdef InterleaveManager<handle
                obj.last_method=method;
                obj.last_method_n=num;
                %% Call the snake
-%                snake_matrix = snake_effect(obj.signal_modulation, next_SOA);
-%                snake = adjust_snake(snake_matrix, obj.signal_intensities);
-%                playrec('play', snake, 1:1:24);
-%                playrec('block');
-%                obj.trials = obj.trials +1;
+               snake_matrix = snake_effect(obj.signal_modulation, next_SOA);
+               snake = adjust_snake(snake_matrix, obj.signal_intensities);
+               playrec('play', snake, 1:1:24);
+               playrec('block');
+               obj.trials = obj.trials +1;
                performed = 1;
            else
                performed = 0;
@@ -78,6 +78,10 @@ classdef InterleaveManager<handle
         
         function method_progress = get_methods_progress(obj)
            method_progress = [obj.adaptive_methods{1}.parameter, obj.adaptive_methods{2}.parameter];
+        end
+        
+        function direction = get_last_method_direction(obj)
+           direction =  obj.last_method.direction;
         end
     end
     
