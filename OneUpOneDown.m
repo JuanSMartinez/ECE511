@@ -12,6 +12,7 @@ classdef OneUpOneDown<handle
         peak;
         valley;
         estimate;
+        estimates;
     end
     
     methods
@@ -35,6 +36,7 @@ classdef OneUpOneDown<handle
                 obj.peak = 0;
                 obj.valley = 0;
                 obj.estimate = 0;
+                obj.estimates = [];
             end
         end
         
@@ -84,11 +86,16 @@ classdef OneUpOneDown<handle
            %update the estimate if the reversal is a second run
            if(mod(obj.reversals, 2)==0)
                obj.estimate = obj.estimate + (obj.peak + obj.valley)/2.0;
+               obj.estimates = [obj.estimates; obj.estimate];
            end
         end
         
         function X_50 = calculate_final_estimate(obj)
             X_50 = obj.estimate/((obj.reversals-1)/2.0);
+        end
+
+        function standard_deviation = calculate_standard_deviation(obj)
+            standard_deviation = std(obj.estimates);
         end
         
         function performed = perform_trial(obj, user_answer)
