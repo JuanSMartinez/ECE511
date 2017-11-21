@@ -83,6 +83,11 @@ classdef InterleaveManager<handle
         function direction = get_last_method_direction(obj)
            direction =  obj.last_method.direction;
         end
+
+        function [std_1 std_2] = calculate_standard_deviations(obj)
+            std_1 = obj.adaptive_methods{1}.calculate_standard_deviation();
+            std_2 = obj.adaptive_methods{2}.calculate_standard_deviation();
+        end
     end
     
 end
