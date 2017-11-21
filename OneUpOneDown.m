@@ -49,7 +49,7 @@ classdef OneUpOneDown<handle
             
             if(obj.direction)
                if(user_answer > 0)
-                  if(obj.reversals==0)
+                  if(obj.reversals<2)
                       step_size = obj.inital_step;
                   else
                       step_size = obj.step;
@@ -71,7 +71,7 @@ classdef OneUpOneDown<handle
                   obj.direction = ~obj.direction;
                   reversal_occured = 1;
                else
-                  if(obj.reversals==0)
+                  if(obj.reversals<2)
                       step_size = obj.inital_step;
                   else
                       step_size = obj.step;
