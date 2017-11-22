@@ -46,19 +46,18 @@ classdef OneUpOneDown<handle
         
         function reversal_occured = perform_step(obj, user_answer)
             %The user answer has to be positive or negative
-            
+            if(obj.reversals<2)
+                step_size = obj.inital_step;
+            else
+                step_size = obj.step;
+            end
             if(obj.direction)
                if(user_answer > 0)
-                  if(obj.reversals<2)
-                      step_size = obj.inital_step;
-                  else
-                      step_size = obj.step;
-                  end
                   obj.parameter = obj.parameter + step_size;
                   reversal_occured = 0;
                else
                   obj.peak = obj.parameter;
-                  obj.parameter = obj.parameter - obj.step;
+                  obj.parameter = obj.parameter - step_size;
                   obj.reversals = obj.reversals + 1;
                   obj.direction = ~obj.direction;
                   reversal_occured = 1;
@@ -66,16 +65,11 @@ classdef OneUpOneDown<handle
             else
                if(user_answer > 0)
                   obj.valley = obj.parameter;
-                  obj.parameter = obj.parameter + obj.step;
+                  obj.parameter = obj.parameter +step_size;
                   obj.reversals = obj.reversals + 1;
                   obj.direction = ~obj.direction;
                   reversal_occured = 1;
                else
-                  if(obj.reversals<2)
-                      step_size = obj.inital_step;
-                  else
-                      step_size = obj.step;
-                  end
                   obj.parameter = obj.parameter - step_size;
                   reversal_occured = 0;
                end
