@@ -1,6 +1,8 @@
 classdef OneUpOneDown<handle
     %OneUpOneDown  One up one down adaptive method
     %   Adaptive method for the snake project
+    %   Author: Juan Sebastian Martinez, Purdue University
+
     
     properties (SetAccess=private)
         inital_step;
